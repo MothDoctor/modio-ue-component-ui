@@ -17,11 +17,11 @@
 void UModioModTagSelector::SetAvailableTagsFromModTagOptions_Implementation(const FModioModTagOptions& InOptions)
 {
 	IModioUIModTagSelector::Execute_SetAvailableTagsFromBoundModTagOptions(
-		this, TScriptInterface<UModioModTagOptionsUIDetails>(UModioUICommonFunctionLibrary::CreateBindableModTagOptions(InOptions)));
+		this, TScriptInterface<IModioModTagOptionsUIDetails>(UModioUICommonFunctionLibrary::CreateBindableModTagOptions(InOptions)));
 }
 
 void UModioModTagSelector::SetAvailableTagsFromBoundModTagOptions_Implementation(
-	const TScriptInterface<UModioModTagOptionsUIDetails>& InOptions)
+	const TScriptInterface<IModioModTagOptionsUIDetails>& InOptions)
 {
 	// Keep a pointer to the bound tags so that we can inspect the selection state directly rather than asking the menu
 	CachedTagOptions = InOptions;
@@ -66,12 +66,12 @@ void UModioModTagSelector::RemoveTagSelectionChangedHandler_Implementation(const
 	}
 }
 
-TScriptInterface<UModioUIModTagSelector> UModioModTagSelector::GetSelectorMenuWidget_Implementation() const
+TScriptInterface<IModioUIModTagSelector> UModioModTagSelector::GetSelectorMenuWidget_Implementation() const
 {
 	return nullptr;
 }
 
-TScriptInterface<UModioUIClickableWidget> UModioModTagSelector::GetMenuToggleClickableWidget_Implementation() const
+TScriptInterface<IModioUIClickableWidget> UModioModTagSelector::GetMenuToggleClickableWidget_Implementation() const
 {
 	return nullptr;
 }

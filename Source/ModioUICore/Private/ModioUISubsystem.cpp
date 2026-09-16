@@ -1174,18 +1174,21 @@ EModioOpenStoreResult UModioUISubsystem::RequestShowTokenPurchaseUIWithHandler(
 }
 
 EModioOpenStoreResult UModioUISubsystem::RequestShowTokenSKUPurchaseUIWithHandler(
-	const FOnShowTokenPurchaseUIResult& Callback,
-	const FString& SKU)
+	const FOnShowTokenPurchaseUIResult& Callback, const FString& SKU)
 {
 	if (!IsUGCFeatureEnabled(EModioUIFeatureFlags::Monetization))
 	{
+		UE_LOG(ModioUICore, Error,
+			   TEXT("Cannot RequestShowTokenSKUPurchaseUIWithHandler because EModioUIFeatureFlags::Monetization is not "
+					"enabled."));
 		Callback.ExecuteIfBound(false);
 		return EModioOpenStoreResult::FailedInactive;
 	}
 
 	if (!PortalInterface.GetObject())
 	{
-		UE_LOG(ModioUICore, Error, TEXT("Cannot RequestShowTokenSKUPurchaseUIWithHandler because the portal interface is not set."));
+		UE_LOG(ModioUICore, Error,
+			   TEXT("Cannot RequestShowTokenSKUPurchaseUIWithHandler because the portal interface is not set."));
 		Callback.ExecuteIfBound(false);
 		return EModioOpenStoreResult::FailedUnknown;
 	}
@@ -1196,7 +1199,37 @@ EModioOpenStoreResult UModioUISubsystem::RequestShowTokenSKUPurchaseUIWithHandle
 			Callback.ExecuteIfBound(bSuccess);
 		}));
 
+	UE_LOG(ModioUICore, Log, TEXT("Opening the platform store"));
 	return IModioPortalInterface::Execute_RequestOpenStore(PortalInterface.GetObject(), SKU, Handler);
+}
+
+void UModioUISubsystem::NotifyPlatformStoreBrowsing(bool bBrowsing)
+{
+	if (!IsUGCFeatureEnabled(EModioUIFeatureFlags::Monetization))
+	{
+		UE_LOG(ModioUICore, Warning,
+			   TEXT("NotifyPlatformStoreBrowsing called but Monetization feature is not enabled."));
+		return;
+	}
+
+	if (!PortalInterface.GetObject())
+	{
+		UE_LOG(ModioUICore, Error, TEXT("Cannot NotifyPlatformStoreBrowsing because the portal interface is not set."));
+		return;
+	}
+
+	IModioPortalInterface::Execute_NotifyStoreBrowsing(PortalInterface.GetObject(), bBrowsing);
+}
+
+bool UModioUISubsystem::ShouldShowPlatformSKUInformation() 
+{
+	if (!PortalInterface.GetObject())
+	{
+		UE_LOG(ModioUICore, Error, TEXT("Cannot check if platform SKU information should be shown because the portal interface is not set."));
+		return false;
+	}
+
+	return IModioPortalInterface::Execute_ShouldShowSKUInformation(PortalInterface.GetObject());
 }
 
 void UModioUISubsystem::RequestRefreshEntitlements()
@@ -1502,7 +1535,14 @@ FModioTokenPack UModioUISubsystem::GetSKUMappingBySKUMappingArray(const TArray<F
 
 	for (const FModioModMonetizationSKU& PlatformSKUMapping : SKUMappings)
 	{
-		if (!CurrentPortalString.Equals(PlatformSKUMapping.Portal, ESearchCase::IgnoreCase))
+		FString ModSkuPortalString = PlatformSKUMapping.Portal;
+		if (ModSkuPortalString.Equals(TEXT("psn"), ESearchCase::IgnoreCase))
+		{
+			// The portal string for PlayStation has been changed, make sure we handle the previous string as the new one
+			ModSkuPortalString = TEXT("ps");
+		}
+
+		if (!CurrentPortalString.Equals(ModSkuPortalString, ESearchCase::IgnoreCase))
 		{
 			continue;
 		}

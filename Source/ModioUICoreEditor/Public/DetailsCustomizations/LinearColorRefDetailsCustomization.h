@@ -64,7 +64,7 @@ public:
 };
 
 template<>
-FLinearColor FLinearColorEditorWidgets::GetUnderlyingColor<FLinearColorRef>(TSharedRef<IPropertyHandle> PropertyHandle)
+inline FLinearColor FLinearColorEditorWidgets::GetUnderlyingColor<FLinearColorRef>(TSharedRef<IPropertyHandle> PropertyHandle)
 {
 	FStructProperty* UnderlyingStruct = CastField<FStructProperty>(PropertyHandle->GetProperty());
 

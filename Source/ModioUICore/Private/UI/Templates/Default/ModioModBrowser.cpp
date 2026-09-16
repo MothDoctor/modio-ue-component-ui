@@ -42,11 +42,21 @@ void UModioModBrowser::NativeConstruct()
 	if (UISubsystem && UISubsystem->IsUGCFeatureEnabled(EModioUIFeatureFlags::Monetization))
 	{
 		UISubsystem->RequestListAllTokenPacks();
+		if (UISubsystem->IsUGCFeatureEnabled(EModioUIFeatureFlags::FiatMonetization))
+		{
+			UISubsystem->NotifyPlatformStoreBrowsing(true);
+		}
 	}
 }
 
 void UModioModBrowser::NativeDestruct()
 {
+	UModioUISubsystem* UISubsystem = GEngine->GetEngineSubsystem<UModioUISubsystem>();
+	if (UISubsystem && UISubsystem->IsUGCFeatureEnabled(EModioUIFeatureFlags::FiatMonetization)) 
+	{
+		UISubsystem->NotifyPlatformStoreBrowsing(false);
+	}
+
 	FSlateApplication::Get().OnFocusChanging().RemoveAll(this);
 
 	Super::NativeDestruct();

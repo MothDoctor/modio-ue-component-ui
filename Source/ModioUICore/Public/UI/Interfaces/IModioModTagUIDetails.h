@@ -116,7 +116,7 @@ protected:
 		return false;
 	}
 
-	virtual TArray<TScriptInterface<UModioModTagUIDetails>> GetCategoryTags_Implementation()
+	virtual TArray<TScriptInterface<IModioModTagUIDetails>> GetCategoryTags_Implementation()
 	{
 		return {};
 	}
@@ -124,7 +124,7 @@ protected:
 	virtual TArray<FString> GetSelectedTags_Implementation()
 	{
 		TArray<FString> SelectedTags;
-		for (TScriptInterface<UModioModTagUIDetails>& CurrentTag : Execute_GetCategoryTags(Cast<UObject>(this)))
+		for (TScriptInterface<IModioModTagUIDetails>& CurrentTag : Execute_GetCategoryTags(Cast<UObject>(this)))
 		{
 			if (CurrentTag.GetObject() &&
 				CurrentTag.GetObject()->GetClass()->ImplementsInterface(UModioModTagUIDetails::StaticClass()))
@@ -178,7 +178,7 @@ public:
 	 * @brief Gets the bindable tag objects for this category
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "mod.io|UI|Data Binding|Mod Tag Category")
-	TArray<TScriptInterface<UModioModTagUIDetails>> GetCategoryTags();
+	TArray<TScriptInterface<IModioModTagUIDetails>> GetCategoryTags();
 
 	/**
 	 * @brief Retrieves an array of strings representing tags which are selected for the associated tag category
@@ -210,7 +210,7 @@ class MODIOUICORE_API IModioModTagOptionsUIDetails : public IInterface
 	GENERATED_BODY()
 
 protected:
-	virtual TArray<TScriptInterface<UModioModTagCategoryUIDetails>> GetCategories_Implementation()
+	virtual TArray<TScriptInterface<IModioModTagCategoryUIDetails>> GetCategories_Implementation()
 	{
 		return {};
 	}
@@ -218,7 +218,7 @@ protected:
 	virtual TArray<FString> GetSelectedTags_Implementation()
 	{
 		TArray<FString> SelectedTags;
-		for (TScriptInterface<UModioModTagCategoryUIDetails>& CurrentCategory :
+		for (TScriptInterface<IModioModTagCategoryUIDetails>& CurrentCategory :
 			 Execute_GetCategories(Cast<UObject>(this)))
 		{
 			if (CurrentCategory.GetObject() && CurrentCategory.GetObject()->GetClass()->ImplementsInterface(
@@ -236,13 +236,13 @@ protected:
 
 	virtual void ClearSelectedTags_Implementation()
 	{
-		for (TScriptInterface<UModioModTagCategoryUIDetails>& CurrentCategory :
+		for (TScriptInterface<IModioModTagCategoryUIDetails>& CurrentCategory :
 			 Execute_GetCategories(Cast<UObject>(this)))
 		{
 			if (CurrentCategory.GetObject() && CurrentCategory.GetObject()->GetClass()->ImplementsInterface(
 												   UModioModTagCategoryUIDetails::StaticClass()))
 			{
-				for (const TScriptInterface<UModioModTagUIDetails>& CurrentTag :
+				for (const TScriptInterface<IModioModTagUIDetails>& CurrentTag :
 					 IModioModTagCategoryUIDetails::Execute_GetCategoryTags(CurrentCategory.GetObject()))
 				{
 					IModioModTagUIDetails::Execute_SetSelectionState(CurrentTag.GetObject(), false);
@@ -253,13 +253,13 @@ protected:
 
 	virtual void SetTagSelectedState_Implementation(const TArray<FString>& InTags, bool bSelectedState)
 	{
-		for (TScriptInterface<UModioModTagCategoryUIDetails>& CurrentCategory :
+		for (TScriptInterface<IModioModTagCategoryUIDetails>& CurrentCategory :
 			 Execute_GetCategories(Cast<UObject>(this)))
 		{
 			if (CurrentCategory.GetObject() && CurrentCategory.GetObject()->GetClass()->ImplementsInterface(
 												   UModioModTagCategoryUIDetails::StaticClass()))
 			{
-				for (const TScriptInterface<UModioModTagUIDetails>& CurrentTag :
+				for (const TScriptInterface<IModioModTagUIDetails>& CurrentTag :
 					 IModioModTagCategoryUIDetails::Execute_GetCategoryTags(CurrentCategory.GetObject()))
 				{
 					FString CurrentTagValue = IModioModTagUIDetails::Execute_GetRawStringValue(CurrentTag.GetObject());
@@ -277,7 +277,7 @@ public:
 	 * @brief Retrieves an array of objects representing the tag categories this game has configured
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "mod.io|UI|Data Binding|Mod Tag Options")
-	TArray<TScriptInterface<UModioModTagCategoryUIDetails>> GetCategories();
+	TArray<TScriptInterface<IModioModTagCategoryUIDetails>> GetCategories();
 
 	/**
 	 * @brief Retrieves an array of strings representing tags which are selected across all categories

@@ -14,6 +14,7 @@
 #include "Containers/Ticker.h"
 #include "CoreMinimal.h"
 #include "UI/Components/ComponentHelpers.h"
+#include "UI/Interfaces/IModioScrollableWidget.h"
 
 #include "ModioDefaultScrollBox.generated.h"
 
@@ -25,7 +26,7 @@ class UWidgetNavigation;
  * @component_display_name Scroll Box
  */
 UCLASS(meta = (ModioWidget))
-class MODIOUICORE_API UModioDefaultScrollBox : public UScrollBox
+class MODIOUICORE_API UModioDefaultScrollBox : public UScrollBox, public IModioScrollableWidget
 {
 	GENERATED_BODY()
 
@@ -53,6 +54,14 @@ public:
 protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 	//~ End UScrollBox Interface
+	// 
+	//~ Begin IModioScrollableWidget Interface
+	virtual void ScrollToTop_Implementation() override;
+	virtual void ScrollToBottom_Implementation() override;
+	virtual void SetScrollOffset_Implementation(float Offset) override;
+	virtual float GetScrollOffset_Implementation() const override;
+	virtual bool CanScrollInDirection_Implementation(bool bBackward) const override;
+	//~ End IModioScrollableWidget Interface
 
 protected:
 	/**

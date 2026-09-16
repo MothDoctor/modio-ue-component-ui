@@ -499,7 +499,7 @@ public:
 		Callback.AddUObject(&ObjectToRegister, FunctionPointer);
 	}
 
-	template<typename DelegateSignature, typename ImplementingClass>
+	template<typename ClassOwner, typename DelegateSignature, typename ImplementingClass>
 	void DeregisterEventHandler(TMulticastDelegate<DelegateSignature>& Callback, ImplementingClass& ObjectToRegister)
 	{
 		Callback.RemoveAll(&ObjectToRegister);
@@ -925,6 +925,24 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "mod.io|UI|ModioUISubsystem")
 	EModioOpenStoreResult RequestShowTokenSKUPurchaseUIWithHandler(const FOnShowTokenPurchaseUIResult& Callback, const FString& SKU);
+
+	/**
+	 * @docpublic
+	 * @brief Notifies the portal interface that the user is currently browsing products from the the platform store,
+	 * which may affect the behavior of certain UI elements.
+	 *
+	 * @param bBrowsing - Whether the user is currently browsing products from the platform store.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "mod.io|UI|ModioUISubsystem")
+	void NotifyPlatformStoreBrowsing(bool bBrowsing);
+
+	/**
+	 * @docpublic
+	 * @brief Check if the UI should display SKU information when checking out a purchase for a mod
+	 * @return True if the UI should display SKU information, false otherwise
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "mod.io|UI|ModioUISubsystem")
+	bool ShouldShowPlatformSKUInformation();
 
 	/**
 	 * @docpublic

@@ -27,6 +27,7 @@
 
 #include "UObject/UnrealNames.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
+#include "Widgets/Text/STextBlock.h"
 
 
 class FClassPathOverrideDetailsCustomization : public IPropertyTypeCustomization

@@ -10,6 +10,9 @@
 
 #include "UI/Editor/ComponentTestWidgets/SModioUIHoverableTestWidget.h"
 #include "UI/Editor/ModioWeakThis.h"
+#include "Widgets/Input/SButton.h"
+#include "Widgets/SBoxPanel.h"
+#include "Widgets/Text/STextBlock.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(SModioUIHoverableTestWidget)
 

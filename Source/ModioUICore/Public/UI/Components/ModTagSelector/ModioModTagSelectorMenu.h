@@ -42,7 +42,7 @@ protected:
 	FModioOnTagSelectionChangedMulticast OnTagSelectionChanged;
 
 	UPROPERTY(Transient, meta = (BlueprintProtected))
-	TScriptInterface<UModioModTagOptionsUIDetails> CachedTagOptions;
+	TScriptInterface<IModioModTagOptionsUIDetails> CachedTagOptions;
 
 	/**
 	 * @brief Provides a reference to the internal widget that actually displays the tag categories
@@ -75,11 +75,11 @@ protected:
 	 * @return Array of category tags allowed to be shown
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "mod.io|UI|Tag Selector")
-	TArray<TScriptInterface<UModioModTagCategoryUIDetails>> GetAllowedTags();
+	TArray<TScriptInterface<IModioModTagCategoryUIDetails>> GetAllowedTags();
 
 	//~ Begin IModioUIModTagSelector Interface
 	virtual void SetAvailableTagsFromModTagOptions_Implementation(const FModioModTagOptions& InOptions) override;
-	virtual void SetAvailableTagsFromBoundModTagOptions_Implementation(const TScriptInterface<UModioModTagOptionsUIDetails>& InOptions) override;
+	virtual void SetAvailableTagsFromBoundModTagOptions_Implementation(const TScriptInterface<IModioModTagOptionsUIDetails>& InOptions) override;
 	virtual TArray<FString> GetSelectedTags_Implementation() override;
 	virtual void SetTagSelectedState_Implementation(const TArray<FString>& InTags, bool bSelectedState) override;
 	virtual void ClearSelectedTags_Implementation() override;
