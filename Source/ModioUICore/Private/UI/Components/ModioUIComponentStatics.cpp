@@ -9,11 +9,16 @@
  */
 
 #include "UI/Components/ModioUIComponentStatics.h"
+#include "Runtime/Launch/Resources/Version.h"
 
 #include "Blueprint/IUserObjectListEntry.h"
 #include "Containers/Array.h"
 #include "Containers/Map.h"
+#if ENGINE_MAJOR_VERSION >= 5 && ENGINE_MINOR_VERSION >= 8
+#include "StructUtils/InstancedStruct.h"
+#else
 #include "InstancedStruct.h"
+#endif
 #include "UI/Interfaces/IModioUIClickableWidget.h"
 #include "UI/Interfaces/IModioUICommandMenu.h"
 #include "UI/Interfaces/IModioUIDataSourceWidget.h"

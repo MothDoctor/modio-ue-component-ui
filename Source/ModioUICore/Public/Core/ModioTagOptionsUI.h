@@ -92,12 +92,12 @@ protected:
 	{
 		return LocalizedCategoryName;
 	}
-	virtual TArray<TScriptInterface<UModioModTagUIDetails>> GetCategoryTags_Implementation() override
+	virtual TArray<TScriptInterface<IModioModTagUIDetails>> GetCategoryTags_Implementation() override
 	{
-		TArray<TScriptInterface<UModioModTagUIDetails>> TagInterfaces;
+		TArray<TScriptInterface<IModioModTagUIDetails>> TagInterfaces;
 		for (UModioModTagUI* CurrentTag : BindableTags)
 		{
-			TagInterfaces.Add(TScriptInterface<UModioModTagUIDetails>(CurrentTag));
+			TagInterfaces.Add(TScriptInterface<IModioModTagUIDetails>(CurrentTag));
 		}
 		return TagInterfaces;
 	}
@@ -145,12 +145,12 @@ class MODIOUICORE_API UModioModTagOptionsUI : public UObject, public IModioModTa
 
 protected:
 	//~ Begin IModioModTagOptionsUIDetails Interface
-	virtual TArray<TScriptInterface<UModioModTagCategoryUIDetails>> GetCategories_Implementation() override
+	virtual TArray<TScriptInterface<IModioModTagCategoryUIDetails>> GetCategories_Implementation() override
 	{
-		TArray<TScriptInterface<UModioModTagCategoryUIDetails>> CategoryInterfaces;
+		TArray<TScriptInterface<IModioModTagCategoryUIDetails>> CategoryInterfaces;
 		for (UModioModTagInfoUI* CurrentCategory : BindableTagCategories)
 		{
-			CategoryInterfaces.Add(TScriptInterface<UModioModTagCategoryUIDetails>(CurrentCategory));
+			CategoryInterfaces.Add(TScriptInterface<IModioModTagCategoryUIDetails>(CurrentCategory));
 		}
 		return CategoryInterfaces;
 	}

@@ -17,12 +17,12 @@
 void UModioDefaultScrollBox::SynchronizeProperties()
 {
 	Super::SynchronizeProperties();
-	UpdateNavigationData(GetScrollOffset());
+	UpdateNavigationData(Execute_GetScrollOffset(this));
 }
 
 TSharedRef<SWidget> UModioDefaultScrollBox::RebuildWidget()
 {
-	UpdateNavigationData(GetScrollOffset());
+	UpdateNavigationData(Execute_GetScrollOffset(this));
 	OnUserScrolled.RemoveDynamic(this, &UModioDefaultScrollBox::OnUserScrolledHandle);
 	OnUserScrolled.AddDynamic(this, &UModioDefaultScrollBox::OnUserScrolledHandle);
 
@@ -36,7 +36,7 @@ TSharedRef<SWidget> UModioDefaultScrollBox::RebuildWidget()
 		}
 
 		NavigationDataTickHandle = FTSTicker::GetCoreTicker().AddTicker(FTickerDelegate::CreateWeakLambda(this, [this](float Time) {
-			UpdateNavigationData(GetScrollOffset());
+												  UpdateNavigationData(Execute_GetScrollOffset(this));
 
 			// Run only once
 			return false;
@@ -116,15 +116,48 @@ UWidget* UModioDefaultScrollBox::HandleCustomBoundaryNavigation_Implementation(E
 	const float NewOffset = [this, InNavigation]() {
 		if (InNavigation == EUINavigation::Down || InNavigation == EUINavigation::Right)
 		{
-			return GetScrollOffset() + float(NavigationScrollOffsetStep);
+			return Execute_GetScrollOffset(this) + float(NavigationScrollOffsetStep);
 		}
 		if (InNavigation == EUINavigation::Up || InNavigation == EUINavigation::Left)
 		{
-			return GetScrollOffset() - float(NavigationScrollOffsetStep);
+			return Execute_GetScrollOffset(this) - float(NavigationScrollOffsetStep);
 		}
 		return static_cast<float>(INDEX_NONE);
 	}();
-	SetScrollOffset(NewOffset);
+	Execute_SetScrollOffset(this, NewOffset);
 	UpdateNavigationData(NewOffset);
 	return nullptr;
+}
+
+void UModioDefaultScrollBox::ScrollToTop_Implementation()
+{
+	UScrollBox::SetScrollOffset(0.0f);
+}
+
+void UModioDefaultScrollBox::ScrollToBottom_Implementation()
+{
+	UScrollBox::SetScrollOffset(GetScrollOffsetOfEnd());
+}
+
+void UModioDefaultScrollBox::SetScrollOffset_Implementation(float Offset)
+{
+	Offset = FMath::Clamp(Offset, 0.0f, GetScrollOffsetOfEnd());
+	UScrollBox::SetScrollOffset(Offset);
+}
+
+float UModioDefaultScrollBox::GetScrollOffset_Implementation() const
+{
+	return UScrollBox::GetScrollOffset();
+}
+
+bool UModioDefaultScrollBox::CanScrollInDirection_Implementation(bool bBackward) const 
+{
+	if (bBackward)
+	{
+		return Execute_GetScrollOffset(this) > 0.0f;
+	}
+	else
+	{
+		return Execute_GetScrollOffset(this) < GetScrollOffsetOfEnd();
+	}
 }

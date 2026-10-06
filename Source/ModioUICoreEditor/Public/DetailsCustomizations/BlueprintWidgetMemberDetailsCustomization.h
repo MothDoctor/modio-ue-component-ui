@@ -138,7 +138,7 @@ namespace ModioUI
 			  Type(InType) {};
 	};
 
-	TSharedPtr<IDetailCustomization> MakeBlueprintWidgetMemberDetailsCustomization(
+	inline TSharedPtr<IDetailCustomization> MakeBlueprintWidgetMemberDetailsCustomization(
 		TSharedPtr<IBlueprintEditor> InBlueprintEditor, EBlueprintWidgetMemberType Type)
 	{
 		const TArray<UObject*>* Objects =

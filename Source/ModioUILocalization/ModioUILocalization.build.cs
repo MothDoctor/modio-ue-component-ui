@@ -19,11 +19,7 @@ public class ModioUILocalization : ModuleRules
 {
 	private void InternalLog(string message)
 	{
-#if UE_5_3_OR_LATER
 		Logger.LogInformation(message);
-#else
-		Log.TraceInformation(message);
-#endif
 	}
 	
 	public ModioUILocalization(ReadOnlyTargetRules Target) : base(Target)

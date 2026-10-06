@@ -9,7 +9,10 @@
  */
 
 #include "UI/Editor/ComponentTestWidgets/SModioUIObjectSelectorTestWidget.h"
+#include "Widgets/Input/SButton.h"
 #include "Widgets/Input/SNumericEntryBox.h"
+#include "Widgets/SBoxPanel.h"
+#include "Widgets/Text/STextBlock.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(SModioUIObjectSelectorTestWidget)
 

@@ -8,4 +8,9 @@
  *
  */
 
+// Suppress 4602 "#pragma pop_macro: 'LOCTEXT_NAMESPACE' no previous #pragma push_macro for this identifier"
+// so  we don't get a warning around this when we do strict include builds
+#pragma warning(push)
+#pragma warning(disable : 4602)
 #pragma pop_macro("LOCTEXT_NAMESPACE")
+#pragma warning(pop)

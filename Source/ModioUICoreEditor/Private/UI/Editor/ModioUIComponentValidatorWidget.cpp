@@ -8,6 +8,7 @@
 #include "Components/DetailsView.h"
 #include "Editor/ScriptableEditorWidgets/Public/Components/SinglePropertyView.h"
 #include "UI/Editor/ModioUIInterfaceValidationWidgets.h"
+#include "Widgets/Input/SCheckBox.h"
 #include "Widgets/Layout/SGridPanel.h"
 #include "Widgets/Layout/SSplitter.h"
 #include "Widgets/SBoxPanel.h"

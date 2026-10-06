@@ -10,6 +10,7 @@
 
 #pragma once
 #include "Widgets/SCompoundWidget.h"
+#include "Widgets/Input/SNumericEntryBox.h"
 #include "UI/Interfaces/IModioUIProgressWidget.h"
 #include "SModioUIProgressBarTestWidget.generated.h"
 

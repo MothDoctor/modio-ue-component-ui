@@ -33,7 +33,7 @@ protected:
 	 * @brief Cached reference to the tag options that are currently available
 	 */
 	UPROPERTY(Transient, meta = (BlueprintProtected))
-	TScriptInterface<UModioModTagOptionsUIDetails> CachedTagOptions;
+	TScriptInterface<IModioModTagOptionsUIDetails> CachedTagOptions;
 
 	/**
 	 * @brief Provides a reference to the internal widget that displays the tag categories and values and tracks the user's selection
@@ -41,7 +41,7 @@ protected:
 	 * @default_component_widget_getter
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "mod.io|UI|Widget Getters", meta = (BlueprintProtected))
-	TScriptInterface<UModioUIModTagSelector> GetSelectorMenuWidget() const;
+	TScriptInterface<IModioUIModTagSelector> GetSelectorMenuWidget() const;
 
 	/**
 	 * @brief Provides a reference to the internal widget that can be clicked to toggle the display of the selector menu
@@ -49,12 +49,12 @@ protected:
 	 * @default_component_widget_getter
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "mod.io|UI|Widget Getters", meta = (BlueprintProtected))
-	TScriptInterface<UModioUIClickableWidget> GetMenuToggleClickableWidget() const;
+	TScriptInterface<IModioUIClickableWidget> GetMenuToggleClickableWidget() const;
 
 	
 	//~ Begin IModioUIModTagSelector Interface
 	virtual void SetAvailableTagsFromModTagOptions_Implementation(const FModioModTagOptions& InOptions) override;
-	virtual void SetAvailableTagsFromBoundModTagOptions_Implementation(const TScriptInterface<UModioModTagOptionsUIDetails>& InOptions) override;
+	virtual void SetAvailableTagsFromBoundModTagOptions_Implementation(const TScriptInterface<IModioModTagOptionsUIDetails>& InOptions) override;
 	virtual TArray<FString> GetSelectedTags_Implementation() override;
 	virtual void ClearSelectedTags_Implementation() override;
 	virtual void AddTagSelectionChangedHandler_Implementation(const FModioOnTagSelectionChanged& Handler) override;

@@ -14,6 +14,17 @@
 #include "Customizations/IBlueprintWidgetCustomizationExtender.h"
 #include "DetailCategoryBuilder.h"
 #include "DetailLayoutBuilder.h"
+#include "DetailWidgetRow.h"
+#include "IDetailCustomization.h"
+#include "Kismet2/BlueprintEditorUtils.h"
+#include "ScopedTransaction.h"
+#include "Templates/Casts.h"
+#include "UObject/StrongObjectPtr.h"
+#include "WidgetBlueprint.h"
+#include "Widgets/Input/SButton.h"
+#include "Widgets/Input/SMultiLineEditableTextBox.h"
+#include "Widgets/SBoxPanel.h"
+#include "Widgets/Text/STextBlock.h"
 #include "Compat/MetadataCompat.h"
 #include "UObject/MetaData.h"
 
@@ -143,7 +154,7 @@ namespace ModioUI
 		}
 	};
 
-	TSharedPtr<IDetailCustomization> MakeBlueprintWidgetClassDetailsCustomization()
+	inline TSharedPtr<IDetailCustomization> MakeBlueprintWidgetClassDetailsCustomization()
 	{
 		/*const TArray<UObject*>* Objects =
 			(InBlueprintEditor.IsValid() ? InBlueprintEditor->GetObjectsCurrentlyBeingEdited() : nullptr);

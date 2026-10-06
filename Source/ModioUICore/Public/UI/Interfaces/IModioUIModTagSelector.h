@@ -62,7 +62,7 @@ public:
 	 * @param InOptions Tag data to use to populate the selector
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "mod.io|UI|TagSelector")
-	void SetAvailableTagsFromBoundModTagOptions(const TScriptInterface<UModioModTagOptionsUIDetails>& InOptions);
+	void SetAvailableTagsFromBoundModTagOptions(const TScriptInterface<IModioModTagOptionsUIDetails>& InOptions);
 
 	/**
 	 * @brief Retrieves the selected tags from the implementing object

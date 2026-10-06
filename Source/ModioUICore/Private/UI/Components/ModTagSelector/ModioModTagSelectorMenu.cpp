@@ -20,12 +20,12 @@ void UModioModTagSelectorMenu::SetAvailableTagsFromModTagOptions_Implementation(
 	// Wrap the struct data in a UObject, so it can be used for data binding and forward onto the method taking such a
 	// wrapped UObject
 	IModioUIModTagSelector::Execute_SetAvailableTagsFromBoundModTagOptions(
-		this, TScriptInterface<UModioModTagOptionsUIDetails>(
+		this, TScriptInterface<IModioModTagOptionsUIDetails>(
 				  UModioUICommonFunctionLibrary::CreateBindableModTagOptions(InOptions)));
 }
 
 void UModioModTagSelectorMenu::SetAvailableTagsFromBoundModTagOptions_Implementation(
-	const TScriptInterface<UModioModTagOptionsUIDetails>& InOptions)
+	const TScriptInterface<IModioModTagOptionsUIDetails>& InOptions)
 {
 	CachedTagOptions = InOptions;
 
@@ -88,14 +88,14 @@ void UModioModTagSelectorMenu::ClearSelectedTags_Implementation()
 	}
 }
 
-TArray<TScriptInterface<UModioModTagCategoryUIDetails>> UModioModTagSelectorMenu::GetAllowedTags_Implementation()
+TArray<TScriptInterface<IModioModTagCategoryUIDetails>> UModioModTagSelectorMenu::GetAllowedTags_Implementation()
 {
 	if (CachedTagOptions.GetObject() &&
 		CachedTagOptions.GetObject()->GetClass()->ImplementsInterface(UModioModTagOptionsUIDetails::StaticClass()))
 	{
 		auto TagCategories = IModioModTagOptionsUIDetails::Execute_GetCategories(CachedTagOptions.GetObject());
 
-		TArray<TScriptInterface<UModioModTagCategoryUIDetails>> TagInterfaces;
+		TArray<TScriptInterface<IModioModTagCategoryUIDetails>> TagInterfaces;
 		for (auto CurrentTag : TagCategories)
 		{
 			if (CurrentTag.GetObject() &&
